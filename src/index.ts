@@ -9,15 +9,17 @@ export default createUnplugin<Options<InjectTypes>>((options: Options<InjectType
         transformInclude(id) {
             let shouldTransform = false;
             if (inject === 'html' && id.endsWith('.html')) {
-                if (!options.templates?.length || options.templates.includes(id)) {
+                const covertTemplates =
+                    options.templates?.map(template => path.resolve(process.cwd(), template).replace(/\\/g, '/')) ?? [];
+                if (!covertTemplates?.length || covertTemplates.includes(id)) {
                     shouldTransform = true;
                 }
             }
             if (inject === 'js' && /\.(js|ts)$/.test(id)) {
-                const covertTransformFilenames = options.transformFilenames.map(filename =>
-                    path.resolve(process.cwd(), filename).replace(/\\/g, '/'),
+                const covertTemplates = options.templates.map(template =>
+                    path.resolve(process.cwd(), template).replace(/\\/g, '/'),
                 );
-                if (covertTransformFilenames.includes(id)) {
+                if (covertTemplates.includes(id)) {
                     shouldTransform = true;
                 }
             }
