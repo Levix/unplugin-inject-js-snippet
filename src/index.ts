@@ -2,24 +2,29 @@ import { createUnplugin } from 'unplugin';
 import type { Options, InjectTypes } from './types';
 import path from 'node:path';
 
+const formatPath = (path: string) => {
+    return path.replace(/\\/g, '/');
+};
+
 export default createUnplugin<Options<InjectTypes>>((options: Options<InjectTypes>) => {
     const { inject } = options;
     return {
         name: 'unplugin-inject-js-snippet',
         transformInclude(id) {
+            const formatId = formatPath(id);
             let shouldTransform = false;
-            if (inject === 'html' && id.endsWith('.html')) {
+            if (inject === 'html' && formatId.endsWith('.html')) {
                 const covertTemplates =
-                    options.templates?.map(template => path.resolve(process.cwd(), template).replace(/\\/g, '/')) ?? [];
-                if (!covertTemplates?.length || covertTemplates.includes(id)) {
+                    options.templates?.map(template => formatPath(path.resolve(process.cwd(), template))) ?? [];
+                if (!covertTemplates?.length || covertTemplates.includes(formatId)) {
                     shouldTransform = true;
                 }
             }
-            if (inject === 'js' && /\.(js|ts)$/.test(id)) {
+            if (inject === 'js' && /\.(js|ts)$/.test(formatId)) {
                 const covertTemplates = options.templates.map(template =>
-                    path.resolve(process.cwd(), template).replace(/\\/g, '/'),
+                    formatPath(path.resolve(process.cwd(), template)),
                 );
-                if (covertTemplates.includes(id)) {
+                if (covertTemplates.includes(formatId)) {
                     shouldTransform = true;
                 }
             }
