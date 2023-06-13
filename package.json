@@ -1,110 +1,114 @@
 {
-  "name": "unplugin-inject-js-snippet",
-  "version": "0.1.0",
-  "packageManager": "pnpm@8.6.0",
-  "description": "Register global imports on demand for Vite and Webpack",
-  "license": "MIT",
-  "homepage": "https://github.com/Levix/unplugin-inject-js-snippet#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Levix/unplugin-inject-js-snippet.git"
-  },
-  "bugs": {
-    "url": "https://github.com/Levix/unplugin-inject-js-snippet/issues"
-  },
-  "keywords": [
-    "unplugin",
-    "vite",
-    "webpack",
-    "rollup",
-    "transform"
-  ],
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+    "name": "unplugin-inject-js-snippet",
+    "version": "0.0.0",
+    "packageManager": "pnpm@8.6.0",
+    "description": "Register global imports on demand for Vite and Webpack",
+    "license": "MIT",
+    "homepage": "https://github.com/Levix/unplugin-inject-js-snippet#readme",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Levix/unplugin-inject-js-snippet.git"
     },
-    "./vite": {
-      "types": "./dist/vite.d.ts",
-      "require": "./dist/vite.cjs",
-      "import": "./dist/vite.js"
+    "bugs": {
+        "url": "https://github.com/Levix/unplugin-inject-js-snippet/issues"
     },
-    "./webpack": {
-      "types": "./dist/webpack.d.ts",
-      "require": "./dist/webpack.cjs",
-      "import": "./dist/webpack.js"
+    "keywords": [
+        "unplugin",
+        "vite",
+        "webpack",
+        "rollup",
+        "transform"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.js"
+        },
+        "./vite": {
+            "types": "./dist/vite.d.ts",
+            "require": "./dist/vite.cjs",
+            "import": "./dist/vite.js"
+        },
+        "./webpack": {
+            "types": "./dist/webpack.d.ts",
+            "require": "./dist/webpack.cjs",
+            "import": "./dist/webpack.js"
+        },
+        "./rollup": {
+            "types": "./dist/rollup.d.ts",
+            "require": "./dist/rollup.cjs",
+            "import": "./dist/rollup.js"
+        },
+        "./esbuild": {
+            "types": "./dist/esbuild.d.ts",
+            "require": "./dist/esbuild.cjs",
+            "import": "./dist/esbuild.js"
+        },
+        "./nuxt": {
+            "types": "./dist/nuxt.d.ts",
+            "require": "./dist/nuxt.cjs",
+            "import": "./dist/nuxt.js"
+        },
+        "./types": {
+            "types": "./dist/types.d.ts",
+            "require": "./dist/types.cjs",
+            "import": "./dist/types.js"
+        },
+        "./*": "./*"
     },
-    "./rollup": {
-      "types": "./dist/rollup.d.ts",
-      "require": "./dist/rollup.cjs",
-      "import": "./dist/rollup.js"
+    "main": "dist/index.cjs",
+    "module": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "typesVersions": {
+        "*": {
+            "*": [
+                "./dist/*",
+                "./*"
+            ]
+        }
     },
-    "./esbuild": {
-      "types": "./dist/esbuild.d.ts",
-      "require": "./dist/esbuild.cjs",
-      "import": "./dist/esbuild.js"
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "build": "tsup",
+        "dev": "tsup --watch src",
+        "build:fix": "esno scripts/postbuild.ts",
+        "lint": "eslint .",
+        "play": "npm -C playground run dev",
+        "prepublishOnly": "npm run build",
+        "release": "bumpp && npm publish",
+        "start": "esno src/index.ts",
+        "test": "vitest",
+        "release-major": "standard-version -t unplugin-inject-js-snippet@ --release-as major && git push --follow-tags origin master && npm publish",
+        "release-minor": "standard-version -t unplugin-inject-js-snippet@ --release-as minor && git push --follow-tags origin master && npm publish",
+        "release-patch": "standard-version -t unplugin-inject-js-snippet@ --release-as patch && git push --follow-tags origin master && npm publish"
     },
-    "./nuxt": {
-      "types": "./dist/nuxt.d.ts",
-      "require": "./dist/nuxt.cjs",
-      "import": "./dist/nuxt.js"
+    "dependencies": {
+        "unplugin": "^1.3.1"
     },
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "require": "./dist/types.cjs",
-      "import": "./dist/types.js"
+    "devDependencies": {
+        "@types/node": "^18.16.16",
+        "@types/prettier": "^2.7.3",
+        "bumpp": "^9.1.0",
+        "chalk": "^5.2.0",
+        "eslint": "^8.42.0",
+        "esno": "^0.16.3",
+        "fast-glob": "^3.2.12",
+        "html-webpack-plugin": "^5.5.3",
+        "nodemon": "^2.0.22",
+        "prettier": "^2.8.8",
+        "rimraf": "^5.0.1",
+        "rollup": "^3.23.1",
+        "standard-version": "^9.5.0",
+        "tsup": "^6.7.0",
+        "typescript": "^5.1.3",
+        "vite": "^4.3.9",
+        "vitest": "^0.31.4",
+        "webpack": "^5.86.0"
     },
-    "./*": "./*"
-  },
-  "main": "dist/index.cjs",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "*": [
-        "./dist/*",
-        "./*"
-      ]
+    "peerDependencies": {
+        "webpack": "^5.86.0"
     }
-  },
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch src",
-    "build:fix": "esno scripts/postbuild.ts",
-    "lint": "eslint .",
-    "play": "npm -C playground run dev",
-    "prepublishOnly": "npm run build",
-    "release": "bumpp && npm publish",
-    "start": "esno src/index.ts",
-    "test": "vitest"
-  },
-  "dependencies": {
-    "unplugin": "^1.3.1"
-  },
-  "devDependencies": {
-    "@types/node": "^18.16.16",
-    "@types/prettier": "^2.7.3",
-    "bumpp": "^9.1.0",
-    "chalk": "^5.2.0",
-    "eslint": "^8.42.0",
-    "esno": "^0.16.3",
-    "fast-glob": "^3.2.12",
-    "html-webpack-plugin": "^5.5.3",
-    "nodemon": "^2.0.22",
-    "prettier": "^2.8.8",
-    "rimraf": "^5.0.1",
-    "rollup": "^3.23.1",
-    "tsup": "^6.7.0",
-    "typescript": "^5.1.3",
-    "vite": "^4.3.9",
-    "vitest": "^0.31.4",
-    "webpack": "^5.86.0"
-  },
-  "peerDependencies": {
-    "webpack": "^5.86.0"
-  }
 }
