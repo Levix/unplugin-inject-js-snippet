@@ -1,12 +1,14 @@
 import { createUnplugin } from 'unplugin';
 import path from 'node:path';
+import { sources } from 'webpack';
 import type { Options, InjectTypes } from './types';
+import { getHtmlTemplateFilenames } from './core/utils';
 
 const formatPath = (path: string) => {
     return path.replace(/\\/g, '/');
 };
 
-export const pluginName = 'unplugin-inject-js-snippet';
+const pluginName = 'unplugin-inject-js-snippet';
 
 export default createUnplugin<Options<InjectTypes>>((options: Options<InjectTypes>, meta) => {
     const { framework } = meta;
@@ -52,6 +54,45 @@ export default createUnplugin<Options<InjectTypes>>((options: Options<InjectType
                 }
                 return `${code}${injectJs}`;
             }
+        },
+
+        webpack(compiler) {
+            compiler.hooks.compilation.tap(pluginName, compilation => {
+                compilation.hooks.processAssets.tap(
+                    {
+                        name: pluginName,
+                        additionalAssets: true,
+                    },
+                    assets => {
+                        const htmlTemplateFilenames = getHtmlTemplateFilenames(compiler);
+                        for (let name in assets) {
+                            if (
+                                name.endsWith('.html') &&
+                                (!htmlTemplateFilenames.length ||
+                                    htmlTemplateFilenames.includes(name) ||
+                                    options.templates?.includes(name))
+                            ) {
+                                const injectScript = `
+                                    <script>
+                                        ${options.injectJs}
+                                    </script>
+                                `;
+                                if (!options.templates?.length || options.templates.includes(name)) {
+                                    const asset = compilation.getAsset(name);
+                                    if (asset) {
+                                        let originalSource = asset.source.source();
+                                        if (originalSource instanceof Buffer) {
+                                            originalSource = originalSource.toString();
+                                        }
+                                        const newSource = originalSource.replace('</head>', `${injectScript}</head>`);
+                                        compilation.updateAsset(name, new sources.ConcatSource(newSource));
+                                    }
+                                }
+                            }
+                        }
+                    },
+                );
+            });
         },
     };
 });
