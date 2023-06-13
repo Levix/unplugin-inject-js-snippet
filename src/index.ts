@@ -50,7 +50,7 @@ export default createUnplugin<Options<InjectTypes>>((options: Options<InjectType
                 if (options.injectTag) {
                     return code.replace(options.injectTag, injectJs);
                 }
-                return `${injectJs}${code}`;
+                return `${code}${injectJs}`;
             }
         },
     };
