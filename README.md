@@ -1,5 +1,7 @@
 # unplugin-inject-js-snippet
 
+Support for injecting js snippet into html and js files.
+
 Starter template for [unplugin](https://github.com/unjs/unplugin).
 
 ## Install
