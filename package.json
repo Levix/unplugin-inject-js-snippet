@@ -1,6 +1,6 @@
 {
     "name": "unplugin-inject-js-snippet",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "packageManager": "pnpm@8.6.0",
     "description": "Support for injecting js snippet into html and js files.",
     "license": "MIT",
