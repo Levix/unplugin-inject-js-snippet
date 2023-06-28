@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/Levix/unplugin-inject-js-snippet/compare/unplugin-inject-js-snippet@1.0.1...unplugin-inject-js-snippet@1.1.0) (2023-06-28)
+
+
+### Features
+
+* 新增 injectSnippet 配置 ([1b1c64d](https://github.com/Levix/unplugin-inject-js-snippet/commit/1b1c64d49fa55f96216b328d352abc90db780872))
+
 ### [1.0.1](https://github.com/Levix/unplugin-inject-js-snippet/compare/unplugin-inject-js-snippet@1.0.0...unplugin-inject-js-snippet@1.0.1) (2023-06-14)
 
 ## 1.0.0 (2023-06-14)
