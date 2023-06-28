@@ -8,6 +8,17 @@ const formatPath = (path: string) => {
     return path.replace(/\\/g, '/');
 };
 
+const getInjectJsByHtml = (options: Options<'html'>) => {
+    const { injectSnippet = true, injectJs } = options;
+    return injectSnippet
+        ? `
+            <script>
+                ${injectJs}
+            </script>
+        `
+        : injectJs;
+};
+
 const pluginName = 'unplugin-inject-js-snippet';
 
 export default createUnplugin<Options<InjectTypes>>((options: Options<InjectTypes>, meta) => {
@@ -41,11 +52,7 @@ export default createUnplugin<Options<InjectTypes>>((options: Options<InjectType
         transform(code) {
             const { injectJs } = options;
             if (inject === 'html' && framework !== 'webpack') {
-                const injectScript = `
-                    <script>
-                        ${injectJs}
-                    </script>
-                `;
+                const injectScript = getInjectJsByHtml(options);
                 return code.replace('</head>', `${injectScript}</head>`);
             }
             if (inject === 'js') {
@@ -72,11 +79,7 @@ export default createUnplugin<Options<InjectTypes>>((options: Options<InjectType
                                     htmlTemplateFilenames.includes(name) ||
                                     options.templates?.includes(name))
                             ) {
-                                const injectScript = `
-                                    <script>
-                                        ${options.injectJs}
-                                    </script>
-                                `;
+                                const injectScript = getInjectJsByHtml(options as Options<'html'>);
                                 if (!options.templates?.length || options.templates.includes(name)) {
                                     const asset = compilation.getAsset(name);
                                     if (asset) {
