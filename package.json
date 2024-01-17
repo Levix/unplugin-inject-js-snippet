@@ -97,7 +97,7 @@
         "bumpp": "^9.1.0",
         "chalk": "^5.2.0",
         "eslint": "^8.42.0",
-        "esno": "^0.17.0",
+        "esno": "^4.0.0",
         "fast-glob": "^3.2.12",
         "html-webpack-plugin": "^5.5.3",
         "husky": "^8.0.3",
